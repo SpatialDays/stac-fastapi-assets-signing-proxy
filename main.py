@@ -8,13 +8,13 @@ To facilitate easy interception, the app sets the 'Accept-Encoding' header to 'u
 
 from flask import Flask, jsonify, request, make_response
 from azure_blob_signing_middleware import AzureBlobSigningMiddleware
-azure_middleware = AzureBlobSigningMiddleware()
+azure_middleware = AzureBlobSigningMiddleware(account_key="", account_name="")
 import requests
 import os
 
 
 app = Flask(__name__)
-_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://stac-fastapi.os-eo-platform-rg-staging.azure.com:80")
+_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "")
 _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083))
 
 @app.after_request
