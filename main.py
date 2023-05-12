@@ -7,7 +7,6 @@ To facilitate easy interception, the app sets the 'Accept-Encoding' header to 'u
 """
 
 from flask import Flask, jsonify, request, make_response
-# azure_middleware = AzureBlobSigningMiddleware(account_key="MQ453kCMoIsYE4MZhiAxpkQw18hL+Wr5vW4fF/2OfD/DlITcnFjqBJ8EXG/OzTo0hTO0kvwvjykJ+AStkLen8A==", account_name="oseoinfrastagingstrgacc")
 from signing_dispacher import SigningDispatcher
 import requests
 import os
