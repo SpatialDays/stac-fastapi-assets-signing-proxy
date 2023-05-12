@@ -1,11 +1,6 @@
-FROM osgeo/gdal:ubuntu-full-latest
-
-# install pip
-RUN apt-get update && apt-get install -y python3-pip
+FROM python:3.8
 WORKDIR /app
-COPY requirements.txt /app
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-ENV IN_GDAL_DOCKER true
-COPY . /app
-EXPOSE 80
-CMD gunicorn --config gunicorn.py main:app
+COPY . .
+CMD ["gunicorn", "stac_validator:app" ,"--bind", "0.0.0.0:80"] (env) ivica@icepad-2:~/Coding/os/stac-validator-api$ 
