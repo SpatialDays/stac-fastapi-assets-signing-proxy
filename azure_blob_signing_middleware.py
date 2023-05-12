@@ -5,10 +5,11 @@ from azure.storage.blob import generate_blob_sas, BlobSasPermissions
 
 
 class AzureBlobSigningMiddleware(SigningMiddleware):
-    def __init__(self, account_name, account_key):
+    def __init__(self, account_name, account_key,container_name):
         super().__init__()
         self.account_name = account_name
         self.account_key = account_key
+        self.container_name = container_name
         self.sas_token_cache = {}
 
     def sign_href(self, href):
@@ -25,6 +26,13 @@ class AzureBlobSigningMiddleware(SigningMiddleware):
         path = parsed_url.path[1:]  # Remove leading slash
         # The first part of the path is the container name
         container_name, _, blob_name = path.partition('/')
+        account_name = parsed_url.netloc.split('.')[0]
+        if account_name != self.account_name:
+            # do not sign blobs that dont belong to the account
+            return blob_url
+        if container_name != self.container_name:
+            # do not sign blobs that dont belong to the container
+            return blob_url
         sas_token = generate_blob_sas(
             account_name=self.account_name,
             container_name=container_name,

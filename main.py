@@ -7,27 +7,26 @@ To facilitate easy interception, the app sets the 'Accept-Encoding' header to 'u
 """
 
 from flask import Flask, jsonify, request, make_response
-from azure_blob_signing_middleware import AzureBlobSigningMiddleware
-azure_middleware = AzureBlobSigningMiddleware(account_key="", account_name="")
+# azure_middleware = AzureBlobSigningMiddleware(account_key="MQ453kCMoIsYE4MZhiAxpkQw18hL+Wr5vW4fF/2OfD/DlITcnFjqBJ8EXG/OzTo0hTO0kvwvjykJ+AStkLen8A==", account_name="oseoinfrastagingstrgacc")
+from signing_dispacher import SigningDispatcher
 import requests
 import os
 
 
 app = Flask(__name__)
-_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "")
+_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://stac-fastapi.os-eo-platform-rg-staging.azure.com:80")
 _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083))
 
 @app.after_request
 def modify_response(response):
     # check if the response is JSON
-    print("Overriding response")
-    print("Headers are: ", response.headers)
     if "application/json" in response.headers.get("Content-Type", "") or "application/geo+json" in response.headers.get("Content-Type", ""):
         # modify the response JSON
         json_data = response.json
         # create a new response with the modified JSON data
         # any request changing middleware should be added here
-        json_data = azure_middleware.sign_all_assets(json_data)
+        signing_dispatcher = SigningDispatcher()
+        json_data = signing_dispatcher.sign_all_assets(json_data)
         new_response = make_response(jsonify(json_data), response.status_code)
         new_response.headers = response.headers
         new_response.headers["Content-Length"] = len(new_response.data)
