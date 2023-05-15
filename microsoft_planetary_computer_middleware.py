@@ -1,15 +1,15 @@
-from base_signing_middleware import SigningMiddleware
-import requests
 import datetime
 from urllib.parse import urlparse
 
 import requests
-from urllib.parse import urlparse
-import datetime
+
+from base_signing_middleware import SigningMiddleware
+
 
 class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
-    
+
     def __init__(self):
+        super().__init__()
         self.token_cache = {}
         self.error_cache = {}
 
@@ -20,10 +20,11 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
                 return token
 
         if (storage_account, container_name) in self.error_cache:
-            raise Exception(f"Error getting token from Microsoft Planetary Computer for {storage_account}/{container_name}")
+            raise Exception(
+                f"Error getting token from Microsoft Planetary Computer for {storage_account}/{container_name}")
 
         try:
-            url = f'https://planetarycomputer.microsoft.com/api/sas/v1/token/{storage_account}/{container_name}'   
+            url = f'https://planetarycomputer.microsoft.com/api/sas/v1/token/{storage_account}/{container_name}'
             r = requests.get(url)
             token_expiry_timestamp = datetime.datetime.strptime(r.json()['msft:expiry'], '%Y-%m-%dT%H:%M:%SZ')
             token = r.json()['token']
@@ -32,11 +33,12 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
             return token
         except:
             self.error_cache[(storage_account, container_name)] = True
-            raise Exception(f"Error getting token from Microsoft Planetary Computer for {storage_account}/{container_name}")
+            raise Exception(
+                f"Error getting token from Microsoft Planetary Computer for {storage_account}/{container_name}")
 
     def sign_href(self, href):
         return self.get_read_sas_token(href)
-    
+
     def get_read_sas_token(self, blob_url):
         parsed_url = urlparse(blob_url)
         path = parsed_url.path[1:]  # Remove leading slash

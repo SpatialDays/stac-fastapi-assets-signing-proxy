@@ -13,8 +13,8 @@ import os
 
 
 app = Flask(__name__)
-_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://stac-fastapi.os-eo-platform-rg-staging.azure.com:80")
-_PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083))
+_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT")
+_PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083)) # not used when running with Gunicorn
 
 @app.after_request
 def modify_response(response):
