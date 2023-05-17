@@ -16,7 +16,7 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
     def get_token_from_microsoft_blob(self, storage_account, container_name):
         if (storage_account, container_name) in self.token_cache:
             token, expiry_time = self.token_cache[(storage_account, container_name)]
-            if expiry_time > datetime.datetime.utcnow():
+            if expiry_time > datetime.datetime.utcnow() + datetime.timedelta(minutes=5):
                 return token
 
         if (storage_account, container_name) in self.error_cache:
@@ -29,9 +29,7 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
             token_expiry_timestamp = datetime.datetime.strptime(r.json()['msft:expiry'], '%Y-%m-%dT%H:%M:%SZ')
             token = r.json()['token']
             expiry_time = token_expiry_timestamp
-            if (token_expiry_timestamp - datetime.datetime.utcnow()) < datetime.timedelta(minutes=30):
-                expiry_time += datetime.timedelta(minutes=30)
-            self.token_cache[(storage_account, container_name)] = (token, expiry_time)
+            self.token_cache[(storage_account, container_name)] = (token, token_expiry_timestamp)
             return token
         except:
             self.error_cache[(storage_account, container_name)] = True
