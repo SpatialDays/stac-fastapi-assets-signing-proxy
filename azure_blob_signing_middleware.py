@@ -39,8 +39,8 @@ class AzureBlobSigningMiddleware(SigningMiddleware):
             blob_name=blob_name,
             account_key=self.account_key,
             permission=BlobSasPermissions(read=True),
-            expiry=datetime.utcnow() + timedelta(hours=1) - timedelta(minutes=5)
+            expiry=datetime.utcnow() + timedelta(hours=48)
         )
-        self.sas_token_cache[blob_url] = (sas_token, datetime.utcnow() + timedelta(hours=1))
+        self.sas_token_cache[blob_url] = (sas_token, datetime.utcnow() + timedelta(hours=48))
         return f"{blob_url}?{sas_token}", True
 
