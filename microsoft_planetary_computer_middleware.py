@@ -28,7 +28,9 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
             r = requests.get(url)
             token_expiry_timestamp = datetime.datetime.strptime(r.json()['msft:expiry'], '%Y-%m-%dT%H:%M:%SZ')
             token = r.json()['token']
-            expiry_time = token_expiry_timestamp - datetime.timedelta(minutes=5)
+            expiry_time = token_expiry_timestamp
+            if (token_expiry_timestamp - datetime.datetime.utcnow()) < datetime.timedelta(minutes=30):
+                expiry_time += datetime.timedelta(minutes=30)
             self.token_cache[(storage_account, container_name)] = (token, expiry_time)
             return token
         except:
@@ -47,6 +49,6 @@ class MicrosoftPlanetarySigningMiddleware(SigningMiddleware):
         account_name = parsed_url.netloc.split('.')[0]
         try:
             token = self.get_token_from_microsoft_blob(account_name, container_name)
-            return f"{blob_url}?{token}"
+            return f"{blob_url}?{token}", True
         except Exception as e:
-            return blob_url
+            return blob_url, False
