@@ -1,5 +1,5 @@
 import os
-
+from typing import Tuple
 from azure_blob_signing_middleware import AzureBlobSigningMiddleware
 from microsoft_planetary_computer_middleware import MicrosoftPlanetarySigningMiddleware
 
@@ -32,9 +32,11 @@ class SigningDispatcher:
                 for key, value in json_data.items():
                     if key == "href":
                         if not self.is_item_previously_signed(value):
-                            signed_url = self.sign_href(value)
-                            json_data[key] = signed_url
-                            self.signed_urls.append(signed_url)
+                            signed_url, signed = self.sign_href(value)
+                            if signed:
+                                json_data[key] = signed_url
+                                # print(f"Adding URL to signed_urls: {signed_url}")
+                                self.signed_urls.append(signed_url)
                     elif key == "links":
                         continue  # skip processing "links" key
                     else:
@@ -47,9 +49,11 @@ class SigningDispatcher:
         new_data = change_href(data)
         return new_data
 
-    def sign_href(self, href):
+    def sign_href(self, href) -> Tuple[str, bool]:
 
         for middleware in _list_of_middleware:
-            # print(f"Signing {href} with {middleware.__class__.__name__}")
-            href = middleware.sign_href(href)
-        return href
+            href, signed = middleware.sign_href(href)
+            if signed:
+                # print(f"Signing {href} with {middleware.__class__.__name__}")
+                return href, signed
+        return href,signed

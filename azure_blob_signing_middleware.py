@@ -19,7 +19,7 @@ class AzureBlobSigningMiddleware(SigningMiddleware):
         if blob_url in self.sas_token_cache:
             token, expiry = self.sas_token_cache[blob_url]
             if expiry > datetime.utcnow() + timedelta(minutes=5):
-                return f"{blob_url}?{token}"
+                return f"{blob_url}?{token}", True
             else:
                 del self.sas_token_cache[blob_url]
         parsed_url = urlparse(blob_url)
@@ -29,10 +29,10 @@ class AzureBlobSigningMiddleware(SigningMiddleware):
         account_name = parsed_url.netloc.split('.')[0]
         if account_name != self.account_name:
             # do not sign blobs that dont belong to the account
-            return blob_url
+            return blob_url, False
         if container_name != self.container_name:
             # do not sign blobs that dont belong to the container
-            return blob_url
+            return blob_url, False
         sas_token = generate_blob_sas(
             account_name=self.account_name,
             container_name=container_name,
@@ -42,5 +42,5 @@ class AzureBlobSigningMiddleware(SigningMiddleware):
             expiry=datetime.utcnow() + timedelta(hours=1) - timedelta(minutes=5)
         )
         self.sas_token_cache[blob_url] = (sas_token, datetime.utcnow() + timedelta(hours=1))
-        return f"{blob_url}?{sas_token}"
+        return f"{blob_url}?{sas_token}", True
 

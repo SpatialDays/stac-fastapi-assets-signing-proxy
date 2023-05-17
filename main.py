@@ -13,7 +13,7 @@ import os
 
 
 app = Flask(__name__)
-_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT")
+_TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://localhost:8080")
 _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083)) # not used when running with Gunicorn
 
 @app.after_request
@@ -74,6 +74,7 @@ def proxy_request(path=""):
                 url += "?" + "&".join([f"{k}={v}" for k, v in query_params.items()])
             response = requests.get(url, headers=new_headers)
         elif method == "post":
+            # print(f"Headers: {new_headers}")
             response = requests.post(url, headers=new_headers, data=request.data)
         response.raise_for_status()
         new_response = make_response(response.content, response.status_code)
