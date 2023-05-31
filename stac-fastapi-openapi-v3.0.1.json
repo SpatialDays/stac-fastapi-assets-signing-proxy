@@ -1,0 +1,745 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "test",
+        "description": "",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://os-eo-platform-rg-staging-apim.azure-api.net/test"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Landing Page",
+                "description": "Endpoint.",
+                "operationId": "landing-page-get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
+            }
+        },
+        "/conformance": {
+            "get": {
+                "summary": "Conformance Classes",
+                "description": "Endpoint.",
+                "operationId": "conformance-classes-conformance-get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
+            }
+        },
+        "/collections/{collection_id}/items/{item_id}": {
+            "get": {
+                "summary": "Get Item",
+                "description": "Endpoint.",
+                "operationId": "get-item-collections-collection-id-items-item-id-get",
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "description": "Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/search": {
+            "get": {
+                "summary": "Search",
+                "description": "Endpoint.",
+                "operationId": "search-search-get",
+                "parameters": [
+                    {
+                        "name": "collections",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bbox",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "intersects",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "datetime",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sortby",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Search",
+                "description": "Endpoint.",
+                "operationId": "search-search-post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/collections": {
+            "get": {
+                "summary": "Get Collections",
+                "description": "Endpoint.",
+                "operationId": "get-collections-collections-get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
+            }
+        },
+        "/collections/{collection_id}": {
+            "get": {
+                "summary": "Get Collection",
+                "description": "Endpoint.",
+                "operationId": "get-collection-collections-collection-id-get",
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/collections/{collection_id}/items": {
+            "get": {
+                "summary": "Get Itemcollection",
+                "description": "Endpoint.",
+                "operationId": "get-itemcollection-collections-collection-id-items-get",
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "bbox",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "datetime",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/queryables": {
+            "get": {
+                "summary": "Queryables",
+                "description": "Endpoint.",
+                "operationId": "queryables-queryables-get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
+            }
+        },
+        "/collections/{collection_id}/queryables": {
+            "get": {
+                "summary": "Collection Queryables",
+                "description": "Endpoint.",
+                "operationId": "collection-queryables-collections-collection-id-queryables-get",
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "FilterLang": {
+                "title": "FilterLang",
+                "enum": [
+                    "cql-json",
+                    "cql2-json",
+                    "cql2-text"
+                ],
+                "type": "string",
+                "description": "Choices for filter-lang value in a POST request.\n\nBased on https://github.com/radiantearth/stac-api-spec/tree/master/fragments/filter#queryables\n\nNote the addition of cql2-json, which is used by the pgstac backend,\nbut is not included in the spec above."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            },
+            "Item": {
+                "title": "Item",
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "type": "string"
+                    },
+                    "stac_version": {
+                        "title": "Stac Version",
+                        "type": "string"
+                    },
+                    "stac_extensions": {
+                        "title": "Stac Extensions",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "geometry": {
+                        "title": "Geometry",
+                        "type": "object"
+                    },
+                    "bbox": {
+                        "title": "Bbox",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "properties": {
+                        "title": "Properties",
+                        "type": "object"
+                    },
+                    "links": {
+                        "title": "Links",
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "assets": {
+                        "title": "Assets",
+                        "type": "object"
+                    },
+                    "collection": {
+                        "title": "Collection",
+                        "type": "string"
+                    }
+                }
+            },
+            "Items": {
+                "title": "Items",
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "title": "Items",
+                        "type": "object"
+                    }
+                },
+                "description": "A group of STAC Item objects, in the form of a dictionary from Item.id -> Item."
+            },
+            "LineString": {
+                "title": "LineString",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "LineString"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates",
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {}
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "LineString Model"
+            },
+            "MultiLineString": {
+                "title": "MultiLineString",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "MultiLineString"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates",
+                        "type": "array",
+                        "items": {
+                            "minItems": 2,
+                            "type": "array",
+                            "items": {}
+                        }
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "MultiLineString Model"
+            },
+            "MultiPoint": {
+                "title": "MultiPoint",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "MultiPoint"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "MultiPoint Model"
+            },
+            "MultiPolygon": {
+                "title": "MultiPolygon",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "MultiPolygon"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates",
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "minItems": 4,
+                                "type": "array",
+                                "items": {}
+                            }
+                        }
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "MultiPolygon Model"
+            },
+            "Point": {
+                "title": "Point",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "Point"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates"
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "Point Model"
+            },
+            "Polygon": {
+                "title": "Polygon",
+                "required": [
+                    "type",
+                    "coordinates"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "title": "Type",
+                        "enum": [
+                            "Polygon"
+                        ],
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "title": "Coordinates",
+                        "type": "array",
+                        "items": {
+                            "minItems": 4,
+                            "type": "array",
+                            "items": {}
+                        }
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    }
+                },
+                "description": "Polygon Model"
+            },
+            "PostFieldsExtension": {
+                "title": "PostFieldsExtension",
+                "type": "object",
+                "properties": {
+                    "include": {
+                        "title": "Include",
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "exclude": {
+                        "title": "Exclude",
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "description": "FieldsExtension.\n\nAttributes:\n    include: set of fields to include.\n    exclude: set of fields to exclude."
+            },
+            "SearchPostRequest": {
+                "title": "SearchPostRequest",
+                "type": "object",
+                "properties": {
+                    "collections": {
+                        "title": "Collections",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "ids": {
+                        "title": "Ids",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "bbox": {
+                        "title": "Bbox"
+                    },
+                    "intersects": {
+                        "title": "Intersects"
+                    },
+                    "datetime": {
+                        "title": "Datetime",
+                        "type": "string"
+                    },
+                    "limit": {
+                        "title": "Limit",
+                        "maximum": 10000,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10
+                    },
+                    "conf": {
+                        "title": "Conf",
+                        "type": "object"
+                    },
+                    "query": {
+                        "title": "Query",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
+                    },
+                    "sortby": {
+                        "title": "Sortby",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "fields": {
+                        "title": "Fields",
+                        "allOf": [
+                            {}
+                        ],
+                        "default": {
+                            "include": [],
+                            "exclude": []
+                        }
+                    },
+                    "token": {
+                        "title": "Token",
+                        "type": "string"
+                    },
+                    "filter": {
+                        "title": "Filter",
+                        "type": "object"
+                    },
+                    "filter-crs": {
+                        "title": "Filter-Crs",
+                        "type": "string"
+                    },
+                    "filter-lang": {
+                        "allOf": [
+                            {}
+                        ],
+                        "default": "cql-json"
+                    }
+                },
+                "description": "Search model.\n\nOverrides the validation for datetime from the base request model."
+            },
+            "SortDirections": {
+                "title": "SortDirections",
+                "enum": [
+                    "asc",
+                    "desc"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "SortExtension": {
+                "title": "SortExtension",
+                "required": [
+                    "field",
+                    "direction"
+                ],
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "title": "Field",
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "direction": {}
+                },
+                "description": "https://github.com/radiantearth/stac-api-spec/tree/master/extensions/sort#sort-api-extension"
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeyHeader": {
+                "type": "apiKey",
+                "name": "Ocp-Apim-Subscription-Key",
+                "in": "header"
+            },
+            "apiKeyQuery": {
+                "type": "apiKey",
+                "name": "subscription-key",
+                "in": "query"
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKeyHeader": []
+        },
+        {
+            "apiKeyQuery": []
+        }
+    ]
+}
