@@ -1,18 +1,29 @@
 import os
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from typing import Tuple
 from azure_blob_signing_middleware import AzureBlobSigningMiddleware
 from microsoft_planetary_computer_middleware import MicrosoftPlanetarySigningMiddleware
 
-AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_NAME = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_NAME")
-AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_KEY = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_KEY")
-AZURE_BLOB_SIGNING_MIDDLEWARE_1_CONTAINER_NAME = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_1_CONTAINER_NAME")
+_AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH")
 
-azure_blob_signing_middleware = AzureBlobSigningMiddleware(account_name=AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_NAME,
-                                                           account_key=AZURE_BLOB_SIGNING_MIDDLEWARE_1_ACCOUNT_KEY,
-                                                           container_name=AZURE_BLOB_SIGNING_MIDDLEWARE_1_CONTAINER_NAME)
 microsoft_planetary_signing_middleware = MicrosoftPlanetarySigningMiddleware()
-_list_of_middleware = [azure_blob_signing_middleware, microsoft_planetary_signing_middleware]
+_list_of_middleware = [microsoft_planetary_signing_middleware]
 
+# open a json file
+with open(_AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH) as json_file:
+    data = json.load(json_file)
+    for item in data:
+        account_name = item["account_name"]
+        account_key = item["account_key"]
+        container_name = item["container_name"]
+        azure_blob_signing_middleware = AzureBlobSigningMiddleware(account_name=account_name,
+                                                                   account_key=account_key,
+                                                                   container_name=container_name)
+        _list_of_middleware.append(azure_blob_signing_middleware)
 
 class SigningDispatcher:
     def __init__(self):
