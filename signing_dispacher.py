@@ -1,6 +1,8 @@
 import os
 import json
 from dotenv import load_dotenv
+import logging
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 
@@ -9,6 +11,7 @@ from azure_blob_signing_middleware import AzureBlobSigningMiddleware
 from microsoft_planetary_computer_middleware import MicrosoftPlanetarySigningMiddleware
 
 _AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH")
+_AZURE_BLOB_SIGNING_MIDDLEWARE_ACCOUNT_KEY = os.getenv("AZURE_BLOB_SIGNING_MIDDLEWARE_ACCOUNT_KEY")
 
 microsoft_planetary_signing_middleware = MicrosoftPlanetarySigningMiddleware()
 _list_of_middleware = [microsoft_planetary_signing_middleware]
@@ -18,10 +21,9 @@ with open(_AZURE_BLOB_SIGNING_MIDDLEWARE_CONFIG_PATH) as json_file:
     data = json.load(json_file)
     for item in data:
         account_name = item["account_name"]
-        account_key = item["account_key"]
         container_name = item["container_name"]
         azure_blob_signing_middleware = AzureBlobSigningMiddleware(account_name=account_name,
-                                                                   account_key=account_key,
+                                                                   account_key=_AZURE_BLOB_SIGNING_MIDDLEWARE_ACCOUNT_KEY,
                                                                    container_name=container_name)
         _list_of_middleware.append(azure_blob_signing_middleware)
 
