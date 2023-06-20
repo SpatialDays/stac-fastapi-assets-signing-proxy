@@ -15,6 +15,7 @@ import os
 app = Flask(__name__)
 _TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://localhost:8080")
 _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083)) # not used when running with Gunicorn
+_JUST_PROXY = os.environ.get("JUST_PROXY", False) 
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -70,8 +71,9 @@ def proxy_request(path=""):
             json_data = new_response.json
             # create a new response with the modified JSON data
             # any request changing middleware should be added here
-            signing_dispatcher = SigningDispatcher()
-            json_data = signing_dispatcher.sign_all_assets(json_data)
+            if not _JUST_PROXY:
+                signing_dispatcher = SigningDispatcher()
+                json_data = signing_dispatcher.sign_all_assets(json_data)
             new_response = make_response(jsonify(json_data), response.status_code)
             for key, value in response.headers.items():
                 new_response.headers[key] = value
