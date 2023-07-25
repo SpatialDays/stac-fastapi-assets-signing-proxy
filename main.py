@@ -19,6 +19,7 @@ _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083)) # not used when running wi
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/<path:path>", methods=["GET", "POST"])
+@app.route("/<path:path>/", methods=["GET", "POST"])
 def proxy_request(path=""):
     try:
         headers = request.headers
