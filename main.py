@@ -20,6 +20,7 @@ _JUST_PROXY = os.environ.get("JUST_PROXY", False)
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/<path:path>", methods=["GET", "POST"])
+@app.route("/<path:path>/", methods=["GET", "POST"])
 def proxy_request(path=""):
     try:
         headers = request.headers
