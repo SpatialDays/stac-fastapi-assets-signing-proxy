@@ -16,6 +16,7 @@ app = Flask(__name__)
 _TARGET_STAC_FASTAPI_ENDPOINT = os.environ.get("TARGET_STAC_FASTAPI_ENDPOINT", "http://localhost:8080")
 _PROXY_PORT = int(os.environ.get("PROXY_PORT", 8083)) # not used when running with Gunicorn
 _JUST_PROXY = os.environ.get("JUST_PROXY", False) 
+app.url_map.strict_slashes = False
 
 
 @app.route("/", methods=["GET", "POST"])
