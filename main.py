@@ -19,10 +19,13 @@ _JUST_PROXY = os.environ.get("JUST_PROXY", False)
 app.url_map.strict_slashes = False
 
 
-@app.route("/", methods=["GET", "POST"])
-@app.route("/<path:path>", methods=["GET", "POST"])
-@app.route("/<path:path>/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
+@app.route("/<path:path>", methods=["GET"])
+@app.route("/<path:path>/", methods=["GET"])
+@app.route("/search", methods=["POST"])
+@app.route("/search/", methods=["POST"])
 def proxy_request(path=""):
+    # if path does not have "search" in it, but it is post, disallow it
     try:
         headers = request.headers
         _headers_to_pass = [
